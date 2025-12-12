@@ -6,6 +6,9 @@
 <title>ClipNexus Dashboard — Saved Uploads</title>
 
 <style>
+/* ============================================================
+   THEME VARIABLES
+============================================================ */
 :root {
     --primary: #e30052;
     --secondary: #00e3a4;
@@ -15,6 +18,9 @@
     --font: 'Consolas', monospace;
 }
 
+/* ============================================================
+   PAGE LAYOUT
+============================================================ */
 body {
     margin: 0;
     font-family: var(--font);
@@ -23,26 +29,6 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
-}
-
-/* Responsive Layout Fix */
-@media(max-width: 768px) {
-    body {
-        flex-direction: column;
-        height: auto;
-    }
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 3px solid var(--primary);
-    }
-    .main {
-        height: auto;
-        overflow-y: visible;
-    }
-    .stats {
-        flex-direction: column;
-    }
 }
 
 .sidebar {
@@ -107,13 +93,11 @@ body {
     height: 45px;
     border-radius: 50%;
     border: 2px solid var(--secondary);
-    cursor: pointer;
 }
 
-#profileInput {
-    display: none;
-}
-
+/* ============================================================
+   STATS CARDS
+============================================================ */
 .stats {
     display: flex;
     gap: 20px;
@@ -134,10 +118,49 @@ body {
     box-shadow: 0 0 10px var(--primary);
 }
 
+.card h3 {
+    color: var(--secondary);
+    margin-top: 0;
+}
+
+.card p {
+    font-size: 28px;
+    margin: 0;
+}
+
+/* ============================================================
+   UPLOAD GRID
+============================================================ */
+.section {
+    padding: 20px;
+}
+
 .upload-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 20px;
+}
+
+.upload-card {
+    background: #242438;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+    transition: 0.2s;
+}
+
+.upload-card:hover {
+    transform: scale(1.03);
+}
+
+.thumb {
+    width: 100%;
+    height: 140px;
+    background: #111;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
 }
 
 .upload-btn {
@@ -149,8 +172,16 @@ body {
     border-radius: 8px;
     cursor: pointer;
     margin-top: 20px;
+    transition: 0.2s;
 }
 
+.upload-btn:hover {
+    background: #ff2f73;
+}
+
+/* ============================================================
+   UPLOAD POPUP GUI
+============================================================ */
 #upload-popup {
     position: fixed;
     top: 0;
@@ -162,10 +193,58 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.popup-box {
+    background: #1c1c29;
+    padding: 25px;
+    width: 400px;
+    border-radius: 12px;
+    border: 2px solid var(--secondary);
+}
+
+.popup-box h2 {
+    margin-top: 0;
+    color: var(--secondary);
+}
+
+.popup-box input,
+.popup-box textarea,
+.popup-box select {
+    width: 100%;
+    padding: 10px;
+    background: #0f0f17;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cancel-btn {
+    background: #444;
+}
+
+.upload-confirm {
+    background: var(--primary);
+    color: white;
+}
 </style>
 </head>
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
     <h2>ClipNexus</h2>
     <a href="#">🏠 Dashboard</a>
@@ -175,42 +254,50 @@ body {
     <a href="index.html">🚪 Logout</a>
 </div>
 
+<!-- MAIN PAGE -->
 <div class="main">
+
     <div class="header">
         <h1>Dashboard</h1>
         <div class="profile">
             <span>gamers</span>
-            <img id="profilePic" src="https://i.imgur.com/4Z7m9zC.png" onclick="changeProfilePic()">
-            <input type="file" accept="image/*" id="profileInput">
+            <img src="https://i.imgur.com/4Z7m9zC.png">
         </div>
     </div>
 
+    <!-- STATS -->
     <div class="stats">
         <div class="card"><h3>Total Clips</h3><p id="statClips">0</p></div>
         <div class="card"><h3>Followers</h3><p>0</p></div>
         <div class="card"><h3>Total Likes</h3><p>0</p></div>
     </div>
 
+    <!-- UPLOADS SECTION -->
     <div class="section">
         <h2>Your Uploads</h2>
+
         <div id="uploadGrid" class="upload-grid"></div>
+
         <button class="upload-btn" onclick="triggerFileSelect()">Upload New Clip</button>
         <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
     </div>
 </div>
 
+<!-- UPLOAD POPUP -->
 <div id="upload-popup">
     <div class="popup-box">
         <h2>Upload Details</h2>
+
         <input type="text" id="uploadTitle" placeholder="Title">
         <textarea id="uploadDesc" rows="3" placeholder="Description"></textarea>
         <select id="uploadPrivacy">
             <option value="Public">Public</option>
             <option value="Private">Private</option>
         </select>
+
         <div class="popup-actions">
-            <button onclick="closePopup()">Cancel</button>
-            <button onclick="finishUpload()">Upload</button>
+            <button class="popup-btn cancel-btn" onclick="closePopup()">Cancel</button>
+            <button class="popup-btn upload-confirm" onclick="finishUpload()">Upload</button>
         </div>
     </div>
 </div>
@@ -218,15 +305,17 @@ body {
 <script>
 let selectedFile = null;
 
+/* LOAD SAVED UPLOADS ON START */
 window.onload = () => {
     loadUploads();
-    loadProfilePic();
 };
 
+/* CLICK "UPLOAD NEW CLIP" */
 function triggerFileSelect() {
     document.getElementById('fileInput').click();
 }
 
+/* FILE SELECTED FROM EXPLORER */
 document.getElementById('fileInput').addEventListener("change", function(e) {
     if (e.target.files.length > 0) {
         selectedFile = e.target.files[0];
@@ -234,10 +323,12 @@ document.getElementById('fileInput').addEventListener("change", function(e) {
     }
 });
 
+/* CLOSE UPLOAD POPUP */
 function closePopup() {
     document.getElementById("upload-popup").style.display = "none";
 }
 
+/* SAVE UPLOAD TO LOCALSTORAGE */
 function finishUpload() {
     let title = document.getElementById("uploadTitle").value.trim();
     let desc = document.getElementById("uploadDesc").value.trim();
@@ -258,6 +349,7 @@ function finishUpload() {
             thumb: event.target.result
         };
 
+        // Save to localStorage
         let uploads = JSON.parse(localStorage.getItem("uploads") || "[]");
         uploads.push(upload);
         localStorage.setItem("uploads", JSON.stringify(uploads));
@@ -270,11 +362,14 @@ function finishUpload() {
     closePopup();
 }
 
+/* LOAD UPLOADS FROM LOCALSTORAGE */
 function loadUploads() {
     let grid = document.getElementById("uploadGrid");
     grid.innerHTML = "";
 
     let uploads = JSON.parse(localStorage.getItem("uploads") || "[]");
+
+    // Update stats
     document.getElementById("statClips").innerText = uploads.length;
 
     uploads.forEach(up => {
@@ -293,54 +388,10 @@ function loadUploads() {
         grid.appendChild(card);
     });
 }
-
-/* Profile Picture System */
-function changeProfilePic() {
-    document.getElementById("profileInput").click();
-}
-
-document.getElementById("profileInput").addEventListener("change", function(e) {
-    if (e.target.files.length > 0) {
-        let reader = new FileReader();
-        reader.onload = function(event) {
-            localStorage.setItem("profilePic", event.target.result);
-            loadProfilePic();
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    }
-});
-
-function loadProfilePic() {
-    let savedPic = localStorage.getItem("profilePic");
-    if (savedPic) document.getElementById("profilePic").src = savedPic;
-}
-// Sidebar button functionality
-const pages = {
-    dashboard: document.querySelector('.stats').parentElement,
-    uploads: document.querySelector('#uploadGrid').parentElement,
-    trending: null
-};
-
-function showDashboard() {
-    pages.dashboard.style.display = 'block';
-}
-
-function showUploads() {
-    pages.dashboard.style.display = 'block';
-    document.querySelector('.stats').scrollIntoView({ behavior: 'smooth' });
-}
-
-function showTrending() {
-    alert('Trending page coming soon!');
-}
-
-// Attach to sidebar buttons automatically
-const sidebarLinks = document.querySelectorAll('.sidebar a');
-sidebarLinks[0].onclick = showDashboard;
-sidebarLinks[2].onclick = showUploads;
-sidebarLinks[3].onclick = showTrending;
-
 </script>
 
 </body>
 </html>
+
+
+
