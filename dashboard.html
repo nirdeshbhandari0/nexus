@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClipNexus Dashboard</title>
+
+<style>
+/* ============================================================
+   THEME VARIABLES
+============================================================ */
+:root {
+    --primary: #e30052;
+    --secondary: #00e3a4;
+    --bg: #0f0f17;
+    --panel: #1c1c29;
+    --text: #f0f0f0;
+    --font: 'Consolas', monospace;
+}
+
+/* ============================================================
+   PAGE STRUCTURE
+============================================================ */
+body {
+    margin: 0;
+    font-family: var(--font);
+    display: flex;
+    height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ============================================================
+   SIDEBAR GUI
+============================================================ */
+.sidebar {
+    width: 260px;
+    background: #131320;
+    border-right: 3px solid var(--primary);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.6);
+}
+
+.sidebar h2 {
+    color: var(--secondary);
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: var(--panel);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: var(--primary);
+    transform: translateX(8px);
+}
+
+/* ============================================================
+   HEADER GUI
+============================================================ */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.header {
+    background: #1b1b28;
+    padding: 20px;
+    border-bottom: 3px solid var(--secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 28px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid var(--secondary);
+}
+
+/* ============================================================
+   STAT CARDS GUI
+============================================================ */
+.stats {
+    display: flex;
+    padding: 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: var(--panel);
+    padding: 25px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 230px;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.card h3 {
+    color: var(--secondary);
+    margin: 0;
+}
+
+.card p {
+    font-size: 36px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* ============================================================
+   GRID OF CLIPS GUI
+============================================================ */
+.section {
+    padding: 25px;
+}
+
+.section h2 {
+    color: var(--secondary);
+    margin-bottom: 10px;
+}
+
+.clip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.clip-card {
+    background: #242438;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+    transition: 0.2s;
+}
+
+.clip-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 12px var(--primary);
+}
+
+.thumb {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 12px;
+}
+
+.upload-btn {
+    margin-top: 20px;
+    padding: 14px 22px;
+    font-size: 18px;
+    color: white;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.upload-btn:hover {
+    background: #ff2f73;
+    transform: translateY(-4px);
+}
+
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>ClipNexus</h2>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="#">📤 Upload Clip</a>
+    <a href="#">🎬 My Clips</a>
+    <a href="#">🔥 Trending</a>
+    <a href="index.html">🚪 Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="header">
+        <h1>Dashboard</h1>
+
+        <div class="profile">
+            <span>gamers</span>
+            <img src="https://i.imgur.com/4Z7m9zC.png">
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="card">
+            <h3>Total Clips</h3>
+            <p>12</p>
+        </div>
+        <div class="card">
+            <h3>Followers</h3>
+            <p>481</p>
+        </div>
+        <div class="card">
+            <h3>Likes</h3>
+            <p>2,940</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Your Recent Uploads</h2>
+
+        <div class="clip-grid">
+
+            <div class="clip-card">
+                <div class="thumb" style="background-image: url('https://i.imgur.com/1pkpB7Q.jpeg');"></div>
+                <p>🔥 27 Killstreak – Warzone</p>
+            </div>
+
+            <div class="clip-card">
+                <div class="thumb" style="background-image: url('https://i.imgur.com/m5nO8es.jpeg');"></div>
+                <p>💥 No-Scope Fortnite Headshot</p>
+            </div>
+
+            <div class="clip-card">
+                <div class="thumb" style="background-image: url('https://i.imgur.com/56Yl7Xd.jpeg');"></div>
+                <p>⚡ Apex Legends Clutch Win</p>
+            </div>
+
+            <div class="clip-card">
+                <div class="thumb" style="background-image: url('https://i.imgur.com/3z6w1cp.jpeg');"></div>
+                <p>😂 Funny Fall Guys Fail</p>
+            </div>
+
+        </div>
+
+        <button class="upload-btn" onclick="alert('Upload feature coming soon!')">
+            Upload New Clip
+        </button>
+    </div>
+
+</div>
+
+</body>
+</html>

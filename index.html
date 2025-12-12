@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipNexus - Upload, Watch, Share</title>
+
+    <style>
+        /* ============================================================
+            🎨 CSS VARIABLES — EASY CUSTOMIZATION
+        ============================================================ */
+        :root {
+            --primary-color: #e30052;
+            --secondary-color: #00e3a4;
+            --background-color: #1a1a2e;
+            --text-color: #f0f0f0;
+            --font-family: 'Consolas', 'Roboto Mono', monospace;
+            --nav-height: 60px;
+        }
+
+        /* ============================================================
+            GLOBAL STYLES
+        ============================================================ */
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            height: var(--nav-height);
+            background: rgba(43, 43, 63, 0.95);
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-right: auto;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: var(--text-color);
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+            PAGE SYSTEM
+        ============================================================ */
+        main {
+            padding: 40px 20px;
+            min-height: calc(100vh - var(--nav-height) - 80px);
+        }
+
+        section {
+            display: none;
+            padding: 20px;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ============================================================
+            BUTTONS
+        ============================================================ */
+        .big-button {
+            padding: 15px 30px;
+            margin: 10px 10px 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 8px;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .primary-btn {
+            background: var(--primary-color);
+            box-shadow: 0 4px 0 var(--primary-color);
+        }
+
+        .secondary-btn {
+            background: var(--secondary-color);
+            color: var(--background-color);
+            box-shadow: 0 4px 0 var(--secondary-color);
+        }
+
+        .big-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 currentColor;
+        }
+
+        /* ============================================================
+            LOGIN FORM
+        ============================================================ */
+        .login-form {
+            max-width: 400px;
+            background: #2a2a44;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-color);
+        }
+
+        .login-form label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .login-form input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #111;
+            color: var(--text-color);
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .login-form button:hover {
+            background: #ff3377;
+        }
+
+        /* ============================================================
+            FLOATING BUTTONS
+        ============================================================ */
+        .float-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 2000;
+        }
+
+        .float-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            color: var(--background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: #00ffc4;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">ClipNexus</div>
+    <nav>
+        <a href="#home" onclick="showPage('home')">Home</a>
+        <a href="#login" onclick="showPage('login')">Login / Register</a>
+    </nav>
+</header>
+
+<main>
+    <!-- HOME PAGE -->
+    <section id="home" class="active">
+        <h1>🔥 Top Gaming Clips of the Hour</h1>
+        <p>
+            Welcome to <strong>ClipNexus</strong>, the premier destination for sharing your epic gaming moments.
+            Upload your best killstreaks, clutch plays, and funniest fails!
+        </p>
+
+        <p>Ready to contribute or dive into the action?</p>
+
+        <button class="big-button primary-btn" onclick="alert('Upload feature coming soon!')">
+            Upload Your Clip
+        </button>
+
+        <button class="big-button secondary-btn" onclick="alert('Opening trending clip feed!')">
+            Browse Trending Clips
+        </button>
+
+        <hr style="border-color: #333; margin: 30px 0;">
+
+        <h2>Featured Game Clips</h2>
+        <p style="color: #aaa;">*Placeholder for video feed grid*</p>
+    </section>
+
+    <!-- LOGIN PAGE -->
+    <section id="login">
+        <h1>Login to Your ClipNexus Account</h1>
+        <p>Log in to manage your clips, personalize your feed, and access the upload portal.</p>
+
+        <form class="login-form" onsubmit="handleLogin(event)">
+            <label for="username">Gamer Tag or Email</label>
+            <input id="username" type="text" placeholder="Enter your username" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Enter your password" required>
+
+            <button type="submit">Secure Login</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Don't have an account?
+            <a href="#" style="color: var(--secondary-color); font-weight: bold;">
+                Register Now
+            </a>
+        </p>
+    </section>
+</main>
+
+<!-- FLOATING BUTTONS -->
+<div class="float-buttons">
+    <div class="float-btn" onclick="alert('Opening Help Center...')">?</div>
+    <div class="float-btn" onclick="alert('Opening Support Chat...')">M</div>
+</div>
+
+<footer>
+    <p>ClipNexus is powered by Gamers, for Gamers. |
+        <a href="#" style="color: var(--secondary-color);">Privacy</a> |
+        <a href="#" style="color: var(--secondary-color);">Terms</a>
+    </p>
+    <p>&copy; 2025 ClipNexus Studios</p>
+</footer>
+
+<script>
+    /* Page Switching System */
+    function showPage(pageId) {
+        document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    /* Login Validator */
+    function handleLogin(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value.trim().toLowerCase();
+        const password = document.getElementById('password').value;
+
+        if (username === "gamers" && password === "strangerthings") {
+            alert("Login successful! Redirecting to dashboard...");
+            window.location.href = "dashboard.html";
+        } else {
+            alert("❌ Incorrect username or password.\n\nHint:\nUsername: gamers\nPassword: strangerthings");
+        }
+    }
+
+    /* Load correct section on hash load */
+    window.addEventListener("load", () => {
+        const hash = window.location.hash.replace("#", "");
+        showPage(hash && document.getElementById(hash) ? hash : "home");
+    });
+</script>
+
+</body>
+</html>
